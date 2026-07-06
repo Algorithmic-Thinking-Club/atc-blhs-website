@@ -14,17 +14,17 @@ const loot = [
   {
     title: "Real projects",
     description:
-      "Software people actually use. WiseGraph runs at BLHS right now.",
+      "We make software people actually use. WiseGraph runs at BLHS right now.",
   },
   {
     title: "Competitions",
     description:
-      "SkillsUSA, regionals through nationals. We won state gold last year.",
+      "SkillsUSA takes us from regionals up to nationals. We won state gold last year.",
   },
   {
     title: "Learn by building",
     description:
-      "No lectures. You pick something to build and we help you build it.",
+      "Nobody lectures you here. You pick something to build and we help you build it.",
   },
   {
     title: "Any skill level",
@@ -53,8 +53,8 @@ export default function JoinPage() {
               <Sprite
                 sheet="/pixel/mascot-idle-sheet.png"
                 frames={4}
-                size={64}
-                label="ATC robot mascot"
+                size={69}
+                label="Thor, the Adventure Game hero"
               />
               <h2 className="font-pixel text-2xl uppercase tracking-wide sm:text-3xl">
                 New Game

@@ -12,5 +12,4 @@ export const navLinks = [
   { label: "Competitions", href: "/competitions" },
   { label: "Projects", href: "/projects" },
   { label: "Members", href: "/members" },
-  { label: "Join", href: "/join" },
 ];

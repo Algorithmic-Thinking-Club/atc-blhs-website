@@ -4,7 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "motion/react";
+import BootScreen from "@/components/home/BootScreen";
 import Sprite from "@/components/fx/Sprite";
 import Typewriter from "@/components/fx/Typewriter";
 import Reveal from "@/components/fx/Reveal";
@@ -13,35 +19,74 @@ import { memberYears } from "@/data/members";
 const MENU = [
   {
     label: "New Game",
+    sub: "join the club",
     href: "/join",
-    line: "Join ATC. Your first meeting counts as the tutorial.",
+    line: "Sign up, then show up. The first meeting is basically the tutorial.",
   },
   {
     label: "Continue",
+    sub: "member hub",
     href: "/hub",
-    line: "Already in the club? The hub has chat, notes, and announcements.",
+    line: "Already a member? Pick up where you left off in the hub.",
   },
   {
     label: "Quest Log",
+    sub: "our projects",
     href: "/projects",
-    line: "WiseGraph, this website, and the Adventure Game we're building next.",
+    line: "Everything we're building, including the site you're looking at.",
   },
   {
     label: "Trophy Room",
+    sub: "competition results",
     href: "/competitions",
-    line: "SkillsUSA: a regional podium sweep, state gold, and a trip to nationals.",
+    line: "How the SkillsUSA season went. Short version: we're going to Atlanta.",
   },
   {
     label: "Party",
+    sub: "the people",
     href: "/members",
-    line: "The people. Knights, wizards, and one warrior sworn against the CollegeBoard.",
+    line: "Meet the members. One of them has sworn eternal war on the CollegeBoard.",
   },
 ];
 
 const SAVE_LINES = [
-  "Shipped WiseGraph, a progress tracker a BLHS support specialist uses for real meetings",
+  "Shipped WiseGraph, a progress tracker a BLHS support specialist uses in real meetings",
   "Took 1st, 2nd, and 3rd at SkillsUSA regionals in computer programming",
   "Won state gold and qualified for nationals in Atlanta",
+];
+
+const PHOTOS = [
+  {
+    src: "/skillsusa-ceremony.jpg",
+    alt: "SkillsUSA state medal ceremony",
+    cap: "state medal ceremony",
+  },
+  {
+    src: "/skillsusa-stage.jpg",
+    alt: "ATC members on stage at SkillsUSA state",
+    cap: "on stage at state",
+  },
+  {
+    src: "/club-booth.jpg",
+    alt: "ATC booth at the BLHS club fair",
+    cap: "club fair booth, fall 2025",
+  },
+];
+
+// fixed positions so server and client render the same dust
+const DUST = [
+  { left: "8%", top: "18%", d: 0 },
+  { left: "16%", top: "62%", d: 0.9 },
+  { left: "24%", top: "34%", d: 1.7 },
+  { left: "37%", top: "12%", d: 0.4 },
+  { left: "46%", top: "72%", d: 2.1 },
+  { left: "58%", top: "26%", d: 1.2 },
+  { left: "67%", top: "58%", d: 0.2 },
+  { left: "74%", top: "15%", d: 1.5 },
+  { left: "83%", top: "44%", d: 0.7 },
+  { left: "91%", top: "68%", d: 1.9 },
+  { left: "31%", top: "82%", d: 1.1 },
+  { left: "62%", top: "86%", d: 0.5 },
 ];
 
 export default function GameHome() {
@@ -49,8 +94,25 @@ export default function GameHome() {
   const menuRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState(0);
   const [started, setStarted] = useState(false);
+  const [wiping, setWiping] = useState(false);
 
   const partySize = memberYears[0].members.length;
+
+  // mouse parallax on the title screen
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 50, damping: 14 });
+  const sy = useSpring(my, { stiffness: 50, damping: 14 });
+  const sceneX = useTransform(sx, (v) => v * -16);
+  const sceneY = useTransform(sy, (v) => v * -9);
+  const frontX = useTransform(sx, (v) => v * 10);
+  const frontY = useTransform(sy, (v) => v * 6);
+
+  function navigateWithWipe(href: string) {
+    if (wiping) return;
+    setWiping(true);
+    setTimeout(() => router.push(href), 420);
+  }
 
   // arrow-key + enter navigation, like a real title menu
   useEffect(() => {
@@ -64,12 +126,13 @@ export default function GameHome() {
         setStarted(true);
         setSelected((s) => (s - 1 + MENU.length) % MENU.length);
       } else if (e.key === "Enter" && started) {
-        router.push(MENU[selected].href);
+        navigateWithWipe(MENU[selected].href);
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [router, selected, started]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, started, wiping]);
 
   function pressStart() {
     setStarted(true);
@@ -78,9 +141,26 @@ export default function GameHome() {
 
   return (
     <>
+      <BootScreen />
+
+      {/* screen wipe when a menu item is chosen */}
+      {wiping && (
+        <div className="screen-wipe fixed inset-0 z-[90] bg-[#030509]" aria-hidden />
+      )}
+
       {/* ---- title screen ---- */}
-      <section className="relative flex min-h-[calc(100dvh-65px)] flex-col items-center justify-center overflow-hidden px-6">
-        <div className="absolute inset-0">
+      <section
+        onMouseMove={(e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          mx.set((e.clientX - r.left) / r.width - 0.5);
+          my.set((e.clientY - r.top) / r.height - 0.5);
+        }}
+        className="vignette relative flex min-h-[calc(100dvh-65px)] flex-col items-center justify-center overflow-hidden px-6"
+      >
+        <motion.div
+          className="absolute -inset-6"
+          style={{ x: sceneX, y: sceneY }}
+        >
           <Image
             src="/pixel/hero-scene.png"
             alt=""
@@ -89,10 +169,29 @@ export default function GameHome() {
             priority
           />
           <div className="absolute inset-0 bg-background/55" />
-        </div>
+        </motion.div>
         <div className="scanlines pointer-events-none absolute inset-0" aria-hidden />
 
-        <div className="relative z-10 flex flex-col items-center text-center">
+        {/* drifting pixel dust */}
+        {DUST.map((p, i) => (
+          <span
+            key={i}
+            aria-hidden
+            className="twinkle pointer-events-none absolute z-10 h-1 w-1"
+            style={{
+              left: p.left,
+              top: p.top,
+              animationDelay: `${p.d}s`,
+              backgroundColor: i % 3 === 0 ? "var(--gold)" : "var(--teal)",
+              opacity: 0.7,
+            }}
+          />
+        ))}
+
+        <motion.div
+          className="relative z-10 flex flex-col items-center text-center"
+          style={{ x: frontX, y: frontY }}
+        >
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -125,12 +224,22 @@ export default function GameHome() {
           <p className="mt-6 font-terminal text-lg text-foreground/40">
             © 2025 ATC · BLHS
           </p>
+        </motion.div>
+
+        {/* Thor strolls across the bottom of the screen */}
+        <div className="walk-across pointer-events-none absolute bottom-2 left-0 z-10">
+          <Sprite
+            sheet="/pixel/mascot-walk-sheet.png"
+            frames={6}
+            size={78}
+            label=""
+          />
         </div>
 
         <button
           onClick={pressStart}
           aria-label="Scroll to menu"
-          className="absolute bottom-6 z-10 font-pixel text-accent"
+          className="absolute bottom-6 right-8 z-10 font-pixel text-accent"
         >
           <span className="blink inline-block">▼</span>
         </button>
@@ -139,7 +248,7 @@ export default function GameHome() {
       {/* ---- main menu ---- */}
       <section
         ref={menuRef}
-        className="relative border-t-2 border-line bg-background"
+        className="px-grid relative border-t-2 border-line bg-background"
       >
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[1fr_1.2fr] md:gap-16 md:py-28">
           {/* menu list */}
@@ -154,6 +263,10 @@ export default function GameHome() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigateWithWipe(item.href);
+                      }}
                       onMouseEnter={() => {
                         setStarted(true);
                         setSelected(i);
@@ -162,19 +275,26 @@ export default function GameHome() {
                         setStarted(true);
                         setSelected(i);
                       }}
-                      className={`flex items-center gap-3 px-3 py-3 font-pixel text-sm uppercase tracking-wider transition-colors ${
-                        active
-                          ? "bg-panel text-accent crt-glow"
-                          : "text-foreground/60 hover:text-foreground"
+                      className={`flex items-baseline gap-3 px-3 py-3 transition-colors ${
+                        active ? "bg-panel" : ""
                       }`}
                     >
                       <span
                         aria-hidden
-                        className={`menu-cursor text-accent ${active ? "opacity-100" : "opacity-0"}`}
+                        className={`menu-cursor font-pixel text-sm text-accent ${active ? "opacity-100" : "opacity-0"}`}
                       >
                         ▸
                       </span>
-                      {item.label}
+                      <span
+                        className={`font-pixel text-sm uppercase tracking-wider ${
+                          active ? "text-accent crt-glow" : "text-foreground/60"
+                        }`}
+                      >
+                        {item.label}
+                      </span>
+                      <span className="font-terminal text-base text-foreground/35">
+                        {item.sub}
+                      </span>
                     </Link>
                   </li>
                 );
@@ -191,13 +311,13 @@ export default function GameHome() {
               <Sprite
                 sheet="/pixel/mascot-idle-sheet.png"
                 frames={4}
-                size={96}
-                label="ATC robot mascot"
+                size={104}
+                label="Thor, the Adventure Game hero"
                 className="shrink-0"
               />
               <div className="pixel-border pixel-border-accent min-h-[120px] flex-1 bg-panel p-5">
                 <p className="font-pixel text-[10px] uppercase tracking-wider text-accent">
-                  BYTE
+                  THOR
                 </p>
                 <p className="mt-2 font-terminal text-xl leading-snug text-foreground/80">
                   <Typewriter
@@ -230,8 +350,8 @@ export default function GameHome() {
         </div>
       </section>
 
-      {/* ---- last save ---- */}
-      <section className="border-t-2 border-line bg-panel/40">
+      {/* ---- last save + memory card ---- */}
+      <section className="px-grid border-t-2 border-line bg-panel/40">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <Reveal>
             <div className="pixel-border mx-auto max-w-3xl bg-panel p-8">
@@ -268,6 +388,42 @@ export default function GameHome() {
               </div>
             </div>
           </Reveal>
+
+          {/* memory card: real photos, framed like save data */}
+          <div className="mx-auto mt-14 max-w-4xl">
+            <Reveal>
+              <p className="flex items-center gap-3 font-pixel text-[10px] uppercase tracking-[0.3em] text-foreground/40">
+                <Image
+                  src="/pixel/ui-star.png"
+                  alt=""
+                  width={14}
+                  height={14}
+                  className="pixelated"
+                />
+                Memory card
+              </p>
+            </Reveal>
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              {PHOTOS.map((photo, i) => (
+                <Reveal key={photo.src} delay={i * 0.12}>
+                  <figure className="group pixel-border overflow-hidden bg-panel">
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={photo.src}
+                        alt={photo.alt}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="scanlines absolute inset-0" aria-hidden />
+                    </div>
+                    <figcaption className="px-3 py-2.5 font-terminal text-base text-foreground/50">
+                      {photo.cap}
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </>

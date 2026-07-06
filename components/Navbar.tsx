@@ -79,6 +79,12 @@ export default function Navbar() {
             label="Hub"
             active={pathname.startsWith("/hub")}
           />
+          <Link
+            href="/join"
+            className="border-2 border-accent bg-accent px-3.5 py-2 font-pixel text-[10px] uppercase tracking-wider text-[#06141a] shadow-[0_3px_0_0_var(--teal-deep)] transition-all hover:bg-[#7deef4] active:translate-y-0.5 active:shadow-none"
+          >
+            Join ATC
+          </Link>
         </div>
 
         {/* mobile toggle */}
@@ -119,6 +125,13 @@ export default function Navbar() {
             onClick={() => setOpen(false)}
             className="py-2.5"
           />
+          <Link
+            href="/join"
+            onClick={() => setOpen(false)}
+            className="mt-3 inline-block border-2 border-accent bg-accent px-3.5 py-2 font-pixel text-[10px] uppercase tracking-wider text-[#06141a] shadow-[0_3px_0_0_var(--teal-deep)]"
+          >
+            Join ATC
+          </Link>
         </div>
       )}
     </nav>

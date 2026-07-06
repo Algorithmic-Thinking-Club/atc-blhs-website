@@ -38,6 +38,15 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  cursor: url("/pixel/ui-cursor.png") 6 2, auto;
+}
+
+a,
+button,
+select,
+label,
+[role="button"] {
+  cursor: url("/pixel/ui-cursor.png") 6 2, pointer;
 }
 
 ::selection {
@@ -96,6 +105,28 @@ body {
     0 0 20px color-mix(in srgb, var(--gold) 25%, transparent);
 }
 
+/* ---------- ambient textures ---------- */
+
+.px-grid {
+  background-image:
+    linear-gradient(rgba(74, 217, 224, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 217, 224, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(2, 4, 9, 0.6) 100%
+  );
+}
+
 /* ---------- dither fade (hero bottom edge) ---------- */
 
 .dither-bottom {
@@ -147,6 +178,16 @@ body {
   from { width: 0; }
 }
 
+@keyframes walk-across {
+  from { transform: translateX(-96px); }
+  to { transform: translateX(calc(100vw + 96px)); }
+}
+
+@keyframes screen-wipe {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 /* sprite animation: element must have background-image set to the sheet,
    width = one frame, background-size = frames * 100% */
 .sprite-idle {
@@ -177,9 +218,20 @@ body {
   animation: cursor-nudge 0.8s ease-in-out infinite;
 }
 
+/* mascot strolling across the bottom of the title screen */
+.walk-across {
+  animation: walk-across 26s linear infinite;
+}
+
+/* chunky pixel screen wipe used for menu navigation */
+.screen-wipe {
+  transform-origin: left;
+  animation: screen-wipe 0.4s steps(10, end) forwards;
+}
+
 /* respect users who don't want motion */
 @media (prefers-reduced-motion: reduce) {
-  .sprite-idle, .blink, .float, .glitch, .twinkle, .menu-cursor {
+  .sprite-idle, .blink, .float, .glitch, .twinkle, .menu-cursor, .walk-across {
     animation: none;
   }
 }
