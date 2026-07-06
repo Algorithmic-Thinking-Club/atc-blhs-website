@@ -331,11 +331,11 @@ export default function GameHome() {
             </div>
 
             {/* status bar, like the top of a game screen */}
-            <div className="pixel-border mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 bg-panel px-5 py-3.5">
-              <span className="font-pixel text-xs text-gold gold-glow">
+            <div className="pixel-border mt-10 flex flex-wrap items-stretch bg-panel font-terminal text-xl leading-none">
+              <span className="flex items-center border-r-2 border-line px-4 py-3 text-gold gold-glow">
                 LV.2
               </span>
-              <span className="flex items-center gap-2 font-terminal text-xl text-foreground/70">
+              <span className="flex items-center gap-2 border-r-2 border-line px-4 py-3 text-foreground/75">
                 <Image
                   src="/pixel/ui-coin.png"
                   alt=""
@@ -343,10 +343,10 @@ export default function GameHome() {
                   height={18}
                   className="pixelated"
                 />
-                ×{partySize}
-                <span className="text-foreground/35">party</span>
+                {partySize}
+                <span className="text-foreground/40">party</span>
               </span>
-              <span className="flex items-center gap-2 font-terminal text-xl text-foreground/70">
+              <span className="flex items-center gap-2 px-4 py-3 text-foreground/75">
                 <Image
                   src="/pixel/badge-trophy.png"
                   alt=""
@@ -354,11 +354,14 @@ export default function GameHome() {
                   height={20}
                   className="pixelated"
                 />
-                ×3
-                <span className="text-foreground/35">trophies</span>
+                3
+                <span className="text-foreground/40">trophies</span>
               </span>
-              <span className="ml-auto font-terminal text-xl text-accent">
-                ▸ next stop: Atlanta
+              <span className="ml-auto flex items-center gap-1.5 border-l-2 border-line px-4 py-3 text-accent">
+                <span aria-hidden className="menu-cursor">
+                  ▸
+                </span>
+                next stop: Atlanta
               </span>
             </div>
           </div>
