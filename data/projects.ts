@@ -12,7 +12,7 @@ export const projects: Project[] = [
     title: "ATC Club Website",
     status: "active",
     description:
-      "The official ATC website. Built by club members to showcase the club and recruit new members.",
+      "The site you're on. We rebuilt it in 2026 with pixel art and a game UI to match what the club is actually building.",
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
   },
   {
@@ -20,7 +20,7 @@ export const projects: Project[] = [
     link: "https://wisegraph.vercel.app",
     status: "active",
     description:
-      "A data visualization tool built for a BLHS student support specialist : David Wiseman. Tracks student progress across terms with 4 dashboard views, 3 chart types, and multi-term comparison. Used internally to support parent-facing discussions.",
+      "A data visualization tool built for David Wiseman, a student support specialist at BLHS. It tracks student progress across terms and he uses it in real parent meetings.",
     tech: ["TypeScript", "React", "Recharts"],
   },
   {

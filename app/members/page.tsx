@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function MembersPage() {
   return (
-    <Section title="Members" subtitle="The people behind ATC.">
+    <Section title="Party Members" subtitle="Choose your fighter. The people behind ATC.">
       <MembersGrid years={memberYears} />
     </Section>
   );

@@ -1,68 +1,87 @@
 import type { Metadata } from "next";
 import Section from "@/components/Section";
-import Card from "@/components/Card";
 import Button from "@/components/Button";
+import Reveal from "@/components/fx/Reveal";
+import XpBar from "@/components/fx/XpBar";
 import { projects } from "@/data/projects";
 
 export const metadata: Metadata = {
   title: "Projects",
 };
 
+const questStatus = {
+  active: { label: "Quest active", className: "text-xp", progress: 80 },
+  paused: { label: "On hold", className: "text-gold", progress: 45 },
+  planned: { label: "Quest queued", className: "text-foreground/40", progress: 10 },
+} as const;
+
 export default function ProjectsPage() {
   return (
-    <Section
-      title="Projects"
-      subtitle="What we're building and what's next."
-    >
-      <div className="grid gap-6 sm:grid-cols-2">
-        {projects.map((project) => (
-          <Card key={project.title} className="flex flex-col">
-            {project.image && (
-              <div className="mb-4 aspect-video rounded bg-zinc-800" />
-            )}
-            <div className="mb-2 flex items-center gap-2">
-              <span
-                className={`inline-block h-2 w-2 rounded-full ${
-                  project.status === "active"
-                    ? "bg-green-500"
-                    : project.status === "paused"
-                      ? "bg-yellow-500"
-                      : "bg-zinc-500"
-                }`}
-              />
-              <span className="text-xs capitalize text-zinc-500">
-                {project.status}
-              </span>
-            </div>
-            <h3 className="text-xl font-semibold">
-              {project.link ? (
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-                  {project.title}
-                </a>
-              ) : project.title}
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              {project.description}
-            </p>
-            {project.tech && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400"
-                  >
-                    {t}
-                  </span>
-                ))}
+    <Section title="Quest Board" subtitle="What we're building and what's next.">
+      <div className="space-y-6">
+        {projects.map((project, i) => {
+          const status = questStatus[project.status];
+          return (
+            <Reveal key={project.title} delay={i * 0.1}>
+              <div className="pixel-border bg-panel p-6 transition-colors duration-150 hover:bg-panel-2 sm:p-8">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p
+                      className={`font-pixel text-[10px] uppercase tracking-wider ${status.className}`}
+                    >
+                      ◆ {status.label}
+                    </p>
+                    <h3 className="mt-3 font-pixel text-base uppercase">
+                      {project.link ? (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-accent hover:underline"
+                        >
+                          {project.title}
+                        </a>
+                      ) : (
+                        project.title
+                      )}
+                    </h3>
+                  </div>
+                  {project.tech && (
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="border border-line bg-panel-2 px-2 py-0.5 font-terminal text-base text-foreground/50"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <p className="mt-4 max-w-3xl font-terminal text-xl leading-snug text-foreground/60">
+                  {project.description}
+                </p>
+
+                <div className="mt-6 max-w-sm">
+                  <XpBar percent={status.progress} label="Progress" />
+                </div>
               </div>
-            )}
-          </Card>
-        ))}
+            </Reveal>
+          );
+        })}
       </div>
 
-      <div className="mt-10 flex items-center gap-4 rounded-lg border border-zinc-800 bg-zinc-900/50 p-5">
-        <p className="text-sm text-zinc-400">All our code is public.</p>
-        <Button href="https://github.com/Algorithmic-Thinking-Club" external variant="secondary">
+      <div className="pixel-border mt-10 flex flex-wrap items-center gap-4 bg-panel p-5">
+        <p className="font-terminal text-xl text-foreground/60">
+          All our code is public.
+        </p>
+        <Button
+          href="https://github.com/Algorithmic-Thinking-Club"
+          external
+          variant="secondary"
+        >
           GitHub
         </Button>
       </div>

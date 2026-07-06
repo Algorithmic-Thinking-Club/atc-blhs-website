@@ -16,11 +16,17 @@ export default function Section({
       <div className="mx-auto max-w-6xl px-6">
         {title && (
           <div className="mb-10">
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            <h2 className="flex items-center gap-3 font-pixel text-xl uppercase tracking-wide sm:text-2xl">
+              <span
+                aria-hidden
+                className="inline-block h-3 w-3 shrink-0 bg-accent shadow-[3px_3px_0_0_var(--teal-deep)]"
+              />
               {title}
             </h2>
             {subtitle && (
-              <p className="mt-2 text-zinc-400">{subtitle}</p>
+              <p className="mt-3 font-terminal text-xl text-foreground/50">
+                {subtitle}
+              </p>
             )}
           </div>
         )}

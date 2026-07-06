@@ -38,6 +38,14 @@ yarn-error.log*
 
 # claude
 .claude/
+.mcp.json
+.browser-sessions/
+
+# local tooling with api keys
+/scripts/
+
+# python cache
+__pycache__/
 
 # typescript
 *.tsbuildinfo

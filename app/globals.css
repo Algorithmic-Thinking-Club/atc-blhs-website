@@ -1,17 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
+  /* game palette — anchored on the PixelLab hero scene */
+  --background: #070b16;
+  --foreground: #e8f4f6;
+  --panel: #0c1424;
+  --panel-2: #101b30;
+  --line: #1c2b47;
+  --teal: #4ad9e0;
+  --teal-dim: #4a9ba8;
+  --teal-deep: #1e5f6b;
+  --gold: #ffd66e;
+  --gold-deep: #b8862d;
+  --hp: #ff5a7a;
+  --xp: #7ef29a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-accent: #4a9ba8;
-  --color-accent-dim: #3a7a85;
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-accent: var(--teal);
+  --color-accent-dim: var(--teal-dim);
+  --color-accent-deep: var(--teal-deep);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-hp: var(--hp);
+  --color-xp: var(--xp);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-pixel: var(--font-silkscreen);
+  --font-terminal: var(--font-vt323);
 }
 
 body {
@@ -20,6 +41,145 @@ body {
 }
 
 ::selection {
-  background: #4a9ba8;
-  color: white;
+  background: var(--teal);
+  color: #06141a;
+}
+
+/* ---------- pixel rendering ---------- */
+
+.pixelated {
+  image-rendering: pixelated;
+}
+
+/* ---------- pixel border (stepped corners, game dialog box) ---------- */
+
+.pixel-border {
+  position: relative;
+  border: 2px solid var(--line);
+  clip-path: polygon(
+    0 6px, 6px 6px, 6px 0,
+    calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
+    100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
+    6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
+  );
+}
+
+.pixel-border-accent {
+  border-color: var(--teal-deep);
+}
+
+/* ---------- CRT / scanlines ---------- */
+
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
+  );
+}
+
+.crt-glow {
+  text-shadow:
+    0 0 6px color-mix(in srgb, var(--teal) 60%, transparent),
+    0 0 24px color-mix(in srgb, var(--teal) 25%, transparent);
+}
+
+.gold-glow {
+  text-shadow:
+    0 0 6px color-mix(in srgb, var(--gold) 55%, transparent),
+    0 0 20px color-mix(in srgb, var(--gold) 25%, transparent);
+}
+
+/* ---------- dither fade (hero bottom edge) ---------- */
+
+.dither-bottom {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 70%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+}
+
+/* ---------- keyframes ---------- */
+
+@keyframes sprite-play {
+  from { background-position-x: 0; }
+  to { background-position-x: calc(-1 * var(--sheet-w, 256px)); }
+}
+
+@keyframes pixel-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes pixel-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes cursor-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+@keyframes glitch-shift {
+  0%, 92%, 100% { transform: translate(0); clip-path: none; }
+  93% { transform: translate(2px, -1px); }
+  94% { transform: translate(-2px, 1px); clip-path: inset(20% 0 40% 0); }
+  95% { transform: translate(1px, 0); clip-path: inset(60% 0 10% 0); }
+  96% { transform: translate(0); clip-path: none; }
+}
+
+@keyframes xp-fill {
+  from { width: 0; }
+}
+
+/* sprite animation: element must have background-image set to the sheet,
+   width = one frame, background-size = frames * 100% */
+.sprite-idle {
+  background-repeat: no-repeat;
+  background-size: calc(var(--frames, 4) * 100%) 100%;
+  image-rendering: pixelated;
+  animation: sprite-play calc(var(--frames, 4) * 0.22s) steps(var(--frames, 4)) infinite;
+}
+
+.blink {
+  animation: pixel-blink 1.1s steps(1) infinite;
+}
+
+.float {
+  animation: pixel-float 3s ease-in-out infinite;
+}
+
+.glitch {
+  animation: glitch-shift 6s steps(1) infinite;
+}
+
+.twinkle {
+  animation: star-twinkle 2.4s ease-in-out infinite;
+}
+
+/* menu selector cursor that nudges on hover targets */
+.menu-cursor {
+  animation: cursor-nudge 0.8s ease-in-out infinite;
+}
+
+/* respect users who don't want motion */
+@media (prefers-reduced-motion: reduce) {
+  .sprite-idle, .blink, .float, .glitch, .twinkle, .menu-cursor {
+    animation: none;
+  }
 }
