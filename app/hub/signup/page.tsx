@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignUpPage() {
@@ -14,9 +15,12 @@ export default function SignUpPage() {
   // redirect if already logged in
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) window.location.href = "/hub";
-    });
+    supabase.auth
+      .getUser()
+      .then(({ data: { user } }) => {
+        if (user) window.location.href = "/hub";
+      })
+      .catch(() => {});
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -24,40 +28,65 @@ export default function SignUpPage() {
     setError("");
     setLoading(true);
 
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { display_name: displayName },
-      },
-    });
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { display_name: displayName },
+        },
+      });
 
-    if (error) {
-      setError(error.message);
+      if (error) {
+        if (/failed to fetch|network/i.test(error.message)) {
+          setError("Can't reach the server. The hub is offline right now, try again shortly.");
+        } else {
+          setError(error.message);
+        }
+        setLoading(false);
+        return;
+      }
+
+      // if email confirmation is required, user won't have a session yet
+      if (data.user && !data.session) {
+        setError("Check your email for a confirmation link, then log in.");
+        setLoading(false);
+        return;
+      }
+
+      window.location.href = "/hub";
+    } catch {
+      setError("Can't reach the server. The hub is offline right now, try again shortly.");
       setLoading(false);
-      return;
     }
-
-    // if email confirmation is required, user won't have a session yet
-    if (data.user && !data.session) {
-      setError("Check your email for a confirmation link, then log in.");
-      setLoading(false);
-      return;
-    }
-
-    window.location.href = "/hub";
   }
 
-  return (
-    <div className="flex min-h-[70vh] items-center justify-center px-6">
-      <div className="w-full max-w-sm">
-        <h1 className="text-2xl font-bold">Sign up for ATC Hub</h1>
-        <p className="mt-2 text-sm text-zinc-400">Create your account.</p>
+  const inputClass =
+    "mt-1.5 w-full border-2 border-line bg-background px-3 py-2.5 font-terminal text-lg text-foreground placeholder-foreground/25 focus:border-accent focus:outline-none";
+  const labelClass =
+    "block font-pixel text-[10px] uppercase tracking-wider text-foreground/50";
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+  return (
+    <div className="px-grid flex min-h-[calc(100dvh-65px)] items-center justify-center px-6 py-16">
+      <div className="pixel-border w-full max-w-sm bg-panel">
+        {/* CRT header strip */}
+        <div className="scanlines relative border-b-2 border-line bg-panel-2 px-6 py-5">
+          <p className="flex items-center gap-2 font-pixel text-[10px] uppercase tracking-[0.3em] text-accent crt-glow">
+            <Image src="/logo.png" alt="" width={18} height={18} />
+            ATC Hub
+          </p>
+          <h1 className="mt-3 font-pixel text-xl uppercase tracking-wide">
+            New Account
+          </h1>
+          <p className="mt-2 font-terminal text-lg text-foreground/50">
+            &gt; create your save file
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5 px-6 py-7">
           <div>
-            <label htmlFor="name" className="block text-sm text-zinc-300">
+            <label htmlFor="name" className={labelClass}>
               Display Name
             </label>
             <input
@@ -66,12 +95,12 @@ export default function SignUpPage() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               required
-              className="mt-1 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
+              className={inputClass}
               placeholder="Your name"
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm text-zinc-300">
+            <label htmlFor="email" className={labelClass}>
               Email
             </label>
             <input
@@ -80,12 +109,12 @@ export default function SignUpPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
+              className={inputClass}
               placeholder="you@example.com"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm text-zinc-300">
+            <label htmlFor="password" className={labelClass}>
               Password
             </label>
             <input
@@ -95,26 +124,28 @@ export default function SignUpPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="mt-1 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:border-accent focus:outline-none"
+              className={inputClass}
             />
           </div>
 
           {error && (
-            <p className="text-sm text-red-400">{error}</p>
+            <p className="border-2 border-hp/40 bg-hp/10 px-3 py-2 font-terminal text-lg leading-snug text-hp">
+              {error}
+            </p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-md bg-accent py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-dim disabled:opacity-50"
+            className="w-full border-2 border-accent bg-accent py-3 font-pixel text-xs uppercase tracking-wider text-[#06141a] shadow-[0_4px_0_0_var(--teal-deep)] transition-all hover:bg-[#7deef4] active:translate-y-1 active:shadow-none disabled:opacity-50 disabled:hover:bg-accent"
           >
-            {loading ? "Creating account..." : "Sign Up"}
+            {loading ? "Loading…" : "▸ Sign Up"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-zinc-500">
+        <p className="border-t-2 border-line px-6 py-5 text-center font-terminal text-lg text-foreground/50">
           Already have an account?{" "}
-          <Link href="/hub/login" className="text-accent hover:underline">
+          <Link href="/hub/login" className="text-accent hover:crt-glow">
             Log in
           </Link>
         </p>
