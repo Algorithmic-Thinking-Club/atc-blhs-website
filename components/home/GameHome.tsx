@@ -62,9 +62,9 @@ const PHOTOS = [
     cap: "state medal ceremony",
   },
   {
-    src: "/skillsusa-stage.jpg",
-    alt: "ATC members on stage at SkillsUSA state",
-    cap: "on stage at state",
+    src: "/nationals.jpg",
+    alt: "ATC members outside the SkillsUSA national conference in Atlanta",
+    cap: "nationals, atlanta",
   },
   {
     src: "/club-booth.jpg",
@@ -330,21 +330,36 @@ export default function GameHome() {
               </div>
             </div>
 
-            {/* HUD strip */}
-            <div className="mt-10 grid grid-cols-2 gap-px border-2 border-line bg-line sm:grid-cols-4">
-              {[
-                { k: "Year", v: "02" },
-                { k: "Party", v: String(partySize) },
-                { k: "Trophies", v: "03" },
-                { k: "Next stop", v: "Atlanta" },
-              ].map((stat) => (
-                <div key={stat.k} className="bg-panel px-4 py-3">
-                  <p className="font-pixel text-[9px] uppercase tracking-wider text-foreground/40">
-                    {stat.k}
-                  </p>
-                  <p className="mt-1 font-pixel text-base text-gold">{stat.v}</p>
-                </div>
-              ))}
+            {/* status bar, like the top of a game screen */}
+            <div className="pixel-border mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 bg-panel px-5 py-3.5">
+              <span className="font-pixel text-xs text-gold gold-glow">
+                LV.2
+              </span>
+              <span className="flex items-center gap-2 font-terminal text-xl text-foreground/70">
+                <Image
+                  src="/pixel/ui-coin.png"
+                  alt=""
+                  width={18}
+                  height={18}
+                  className="pixelated"
+                />
+                ×{partySize}
+                <span className="text-foreground/35">party</span>
+              </span>
+              <span className="flex items-center gap-2 font-terminal text-xl text-foreground/70">
+                <Image
+                  src="/pixel/badge-trophy.png"
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="pixelated"
+                />
+                ×3
+                <span className="text-foreground/35">trophies</span>
+              </span>
+              <span className="ml-auto font-terminal text-xl text-accent">
+                ▸ next stop: Atlanta
+              </span>
             </div>
           </div>
         </div>
@@ -412,7 +427,7 @@ export default function GameHome() {
                         src={photo.src}
                         alt={photo.alt}
                         fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="object-cover object-[50%_42%] transition-transform duration-300 group-hover:scale-105"
                       />
                       <div className="scanlines absolute inset-0" aria-hidden />
                     </div>

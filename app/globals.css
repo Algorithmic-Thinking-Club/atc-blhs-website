@@ -1,7 +1,7 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
-  /* game palette — anchored on the PixelLab hero scene */
+  /* game palette, anchored on the PixelLab hero scene */
   --background: #070b16;
   --foreground: #e8f4f6;
   --panel: #0c1424;
@@ -220,7 +220,7 @@ label,
 
 /* mascot strolling across the bottom of the title screen */
 .walk-across {
-  animation: walk-across 26s linear infinite;
+  animation: walk-across 18s linear infinite;
 }
 
 /* chunky pixel screen wipe used for menu navigation */
@@ -235,3 +235,5 @@ label,
     animation: none;
   }
 }
+
+/* bump */
