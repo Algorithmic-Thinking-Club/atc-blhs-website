@@ -226,16 +226,6 @@ export default function GameHome() {
           </p>
         </motion.div>
 
-        {/* Thor strolls across the bottom of the screen */}
-        <div className="walk-across pointer-events-none absolute bottom-2 left-0 z-10">
-          <Sprite
-            sheet="/pixel/mascot-walk-sheet.png"
-            frames={6}
-            size={78}
-            label=""
-          />
-        </div>
-
         <button
           onClick={pressStart}
           aria-label="Scroll to menu"

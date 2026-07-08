@@ -178,11 +178,6 @@ label,
   from { width: 0; }
 }
 
-@keyframes walk-across {
-  from { transform: translateX(-96px); }
-  to { transform: translateX(calc(100vw + 96px)); }
-}
-
 @keyframes screen-wipe {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
@@ -218,11 +213,6 @@ label,
   animation: cursor-nudge 0.8s ease-in-out infinite;
 }
 
-/* mascot strolling across the bottom of the title screen */
-.walk-across {
-  animation: walk-across 18s linear infinite;
-}
-
 /* chunky pixel screen wipe used for menu navigation */
 .screen-wipe {
   transform-origin: left;
@@ -231,7 +221,7 @@ label,
 
 /* respect users who don't want motion */
 @media (prefers-reduced-motion: reduce) {
-  .sprite-idle, .blink, .float, .glitch, .twinkle, .menu-cursor, .walk-across {
+  .sprite-idle, .blink, .float, .glitch, .twinkle, .menu-cursor {
     animation: none;
   }
 }
