@@ -13,8 +13,20 @@ export const metadata: Metadata = {
 const loot = [
   {
     title: "Real projects",
-    description:
-      "We make software people actually use. WiseGraph runs at BLHS right now.",
+    description: (
+      <>
+        We make software people actually use.{" "}
+        <a
+          href="https://wisegraph.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent underline-offset-2 hover:underline hover:crt-glow"
+        >
+          WiseGraph
+        </a>{" "}
+        runs at BLHS right now.
+      </>
+    ),
   },
   {
     title: "Competitions",

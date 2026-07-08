@@ -49,8 +49,19 @@ const MENU = [
   },
 ];
 
-const SAVE_LINES = [
-  "Shipped WiseGraph, a progress tracker a BLHS support specialist uses in real meetings",
+const SAVE_LINES: React.ReactNode[] = [
+  <>
+    Shipped{" "}
+    <a
+      href="https://wisegraph.vercel.app"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-accent underline-offset-2 hover:underline hover:crt-glow"
+    >
+      WiseGraph
+    </a>
+    , a progress tracker a BLHS support specialist uses in real meetings
+  </>,
   "Took 1st, 2nd, and 3rd at SkillsUSA regionals in computer programming",
   "Won state gold and qualified for nationals in Atlanta",
 ];
@@ -373,7 +384,7 @@ export default function GameHome() {
               </div>
               <ul className="mt-6 space-y-4">
                 {SAVE_LINES.map((line, i) => (
-                  <Reveal key={line} delay={0.15 + i * 0.12} from="left">
+                  <Reveal key={i} delay={0.15 + i * 0.12} from="left">
                     <li className="flex gap-3 font-terminal text-xl leading-snug text-foreground/70">
                       <span aria-hidden className="text-gold">
                         ★
