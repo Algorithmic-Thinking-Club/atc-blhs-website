@@ -20,16 +20,16 @@ export const competitions: Competition[] = [
     title: "SkillsUSA State",
     event: "Computer Programming",
     date: "2026",
-    result: "Gold Medal",
+    result: "Gold & Bronze",
     description:
-      "Won gold at the Washington state SkillsUSA competition. Qualified for nationals.",
+      "Two ATC members on the podium at the Washington state SkillsUSA championship in Computer Programming: gold and bronze. The gold medalist advanced to nationals.",
   },
   {
     title: "SkillsUSA Nationals",
     event: "Computer Programming",
     date: "2026",
-    result: "Qualified",
+    result: "Competed",
     description:
-      "Representing Washington state at the national SkillsUSA competition in Atlanta.",
+      "Represented Washington state at the SkillsUSA National Leadership & Skills Conference in Atlanta this summer.",
   },
 ];

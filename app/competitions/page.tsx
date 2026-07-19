@@ -64,7 +64,7 @@ export default function CompetitionsPage() {
         </div>
 
         <p className="mt-10 font-terminal text-xl text-foreground/40">
-          Next up: SkillsUSA nationals in Atlanta, summer 2026.
+          That wraps the 2025-26 season. Next up: the 2026-27 season.
         </p>
       </Section>
     </div>

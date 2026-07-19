@@ -41,7 +41,7 @@ const MENU = [
     label: "Competitions",
     sub: "SkillsUSA results",
     href: "/competitions",
-    line: "How the SkillsUSA season went. Short version: we're going to Atlanta.",
+    line: "How the SkillsUSA season went. Short version: medals at state, then nationals in Atlanta.",
   },
   {
     label: "Members",
@@ -65,7 +65,7 @@ const SAVE_LINES: React.ReactNode[] = [
     , a progress tracker a BLHS support specialist uses in real meetings
   </>,
   "Took 1st, 2nd, and 3rd at SkillsUSA regionals in computer programming",
-  "Won state gold and qualified for nationals in Atlanta",
+  "Won gold and bronze at state, then competed at nationals in Atlanta",
 ];
 
 const PHOTOS = [
@@ -359,7 +359,7 @@ export default function GameHome() {
                 <span aria-hidden className="menu-cursor">
                   ▸
                 </span>
-                next stop: Atlanta
+                next up: 2026-27
               </span>
             </div>
           </div>

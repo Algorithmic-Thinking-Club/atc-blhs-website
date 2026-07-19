@@ -31,7 +31,7 @@ const loot = [
   {
     title: "Competitions",
     description:
-      "SkillsUSA takes us from regionals up to nationals. We won state gold last year.",
+      "SkillsUSA takes us from regionals to nationals. Last year we took gold and bronze at state and competed at nationals in Atlanta.",
   },
   {
     title: "Learn by building",
