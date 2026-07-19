@@ -219,9 +219,104 @@ label,
   animation: screen-wipe 0.4s steps(10, end) forwards;
 }
 
+/* ---------- glitch intro (plays once on load, resolves to the clean hero) ---------- */
+
+@keyframes glitch-slice-a {
+  0%, 100% { clip-path: inset(0 0 0 0); transform: translateX(0) scaleY(1); }
+  8% { clip-path: inset(6% 0 80% 0); transform: translateX(-22px); }
+  17% { clip-path: inset(44% 0 30% 0); transform: translateX(18px) scaleY(1.04); }
+  26% { clip-path: inset(72% 0 10% 0); transform: translateX(-14px); }
+  35% { clip-path: inset(18% 0 58% 0); transform: translateX(20px); }
+  44% { clip-path: inset(85% 0 4% 0); transform: translateX(-18px); }
+  53% { clip-path: inset(33% 0 42% 0); transform: translateX(12px) scaleY(0.97); }
+  62% { clip-path: inset(60% 0 22% 0); transform: translateX(-8px); }
+  72% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+@keyframes glitch-slice-b {
+  0%, 100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+  10% { clip-path: inset(70% 0 12% 0); transform: translateX(21px); }
+  19% { clip-path: inset(20% 0 62% 0); transform: translateX(-20px); }
+  30% { clip-path: inset(50% 0 34% 0); transform: translateX(16px); }
+  41% { clip-path: inset(5% 0 82% 0); transform: translateX(-16px); }
+  52% { clip-path: inset(78% 0 8% 0); transform: translateX(23px); }
+  63% { clip-path: inset(38% 0 48% 0); transform: translateX(-11px); }
+  73% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+@keyframes glitch-flash {
+  0% { opacity: 0; }
+  3% { opacity: 0.85; }
+  8% { opacity: 0; }
+  14% { opacity: 0.4; }
+  20% { opacity: 0; }
+}
+
+@keyframes glitch-fade {
+  0%, 50% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+
+@keyframes glitch-static {
+  0% { opacity: 0; }
+  4% { opacity: 0.45; }
+  9% { opacity: 0.08; }
+  15% { opacity: 0.4; }
+  23% { opacity: 0.04; }
+  31% { opacity: 0.28; }
+  46%, 100% { opacity: 0; }
+}
+
+@keyframes glitch-scan {
+  0% { transform: translateY(-30%); opacity: 0; }
+  12% { opacity: 0.95; }
+  88% { opacity: 0.6; }
+  100% { transform: translateY(115vh); opacity: 0; }
+}
+
+.glitch-scene {
+  position: absolute;
+  inset: 0;
+  background: url("/pixel/hero-scene.png") center / cover no-repeat;
+  image-rendering: pixelated;
+  will-change: transform, clip-path, opacity;
+}
+.glitch-a {
+  filter: brightness(1.2) contrast(1.25) sepia(0.7) saturate(4) hue-rotate(-35deg);
+  animation: glitch-slice-a 0.95s steps(1, end) 1, glitch-fade 1.5s ease-out 1 forwards;
+}
+.glitch-b {
+  filter: brightness(1.2) contrast(1.25) sepia(0.7) saturate(4) hue-rotate(160deg);
+  animation: glitch-slice-b 0.95s steps(1, end) 1, glitch-fade 1.5s ease-out 1 forwards;
+}
+.glitch-static {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: overlay;
+  opacity: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  animation: glitch-static 1.3s steps(1, end) 1 forwards;
+}
+.glitch-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--teal) 80%, transparent),
+    transparent
+  );
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--teal) 60%, transparent);
+  animation: glitch-scan 1.2s ease-in-out 1 forwards;
+}
+
 /* respect users who don't want motion */
 @media (prefers-reduced-motion: reduce) {
-  .sprite-idle, .blink, .float, .glitch, .twinkle, .menu-cursor {
+  .sprite-idle, .blink, .float, .glitch, .twinkle, .menu-cursor,
+  .glitch-a, .glitch-b, .glitch-static, .glitch-scan {
     animation: none;
   }
 }

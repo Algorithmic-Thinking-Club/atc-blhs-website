@@ -17,14 +17,21 @@ const IMG_H = 224;
 
 type Screen = { photo: string; quad: [number, number][] };
 
+// quads in source image space (400x224), corner order TL, TR, BR, BL.
+// Only the front pair on each side — big enough to hold a photo cleanly.
 const SCREENS: Screen[] = [
-  { photo: "/pixel/screen-nationals.png", quad: [[341, 113], [365, 115], [356, 160], [333, 152]] }, // R front
-  { photo: "/pixel/screen-state.png", quad: [[35, 115], [58, 113], [66, 152], [43, 160]] }, // L front
-  { photo: "/pixel/screen-stage.png", quad: [[309, 110], [323, 111], [316, 145], [303, 140]] }, // R mid
-  { photo: "/pixel/screen-ceremony.png", quad: [[78, 111], [92, 110], [98, 140], [85, 145]] }, // L mid
-  { photo: "/pixel/screen-booth.png", quad: [[286, 118], [294, 118], [291, 135], [283, 132]] }, // R back
-  { photo: "/pixel/screen-nationals.png", quad: [[105, 109], [114, 108], [119, 132], [111, 135]] }, // L back
+  { photo: "/pixel/screen-nationals.png", quad: [[341, 113], [365, 115], [356, 160], [333, 152]] }, // R1 front
+  { photo: "/pixel/screen-state.png", quad: [[35, 115], [58, 113], [66, 152], [43, 160]] }, // L1 front
+  { photo: "/pixel/screen-stage.png", quad: [[309, 110], [323, 111], [316, 145], [303, 140]] }, // R2
+  { photo: "/pixel/screen-ceremony.png", quad: [[78, 111], [92, 110], [98, 140], [85, 145]] }, // L2
 ];
+
+// expand slightly (negative f) so the photo covers the full glass, no teal border
+function inset(quad: [number, number][], f = -0.06): [number, number][] {
+  const cx = quad.reduce((s, p) => s + p[0], 0) / 4;
+  const cy = quad.reduce((s, p) => s + p[1], 0) / 4;
+  return quad.map(([x, y]) => [x + (cx - x) * f, y + (cy - y) * f]);
+}
 
 // ---- 2D projective transform (unit rect -> quad), after franklinta.com ----
 type M = number[];
@@ -89,7 +96,7 @@ export default function PerspectiveScreens() {
     <div ref={ref} className="pointer-events-none absolute inset-0" aria-hidden>
       {scale > 0 &&
         SCREENS.map((s, i) => {
-          const [tl, tr, br, bl] = s.quad.map(map);
+          const [tl, tr, br, bl] = inset(s.quad).map(map);
           const sw = (dist(tl, tr) + dist(bl, br)) / 2;
           const sh = (dist(tl, bl) + dist(tr, br)) / 2;
           if (sw < 2 || sh < 2) return null;
@@ -111,19 +118,11 @@ export default function PerspectiveScreens() {
                 src={s.photo}
                 alt=""
                 className="pixelated h-full w-full object-cover"
-                style={{ opacity: 0.92 }}
               />
-              {/* CRT tint + scanlines so the photo reads as screen content */}
+              {/* just a faint glass sheen — no blue cast, photo shows true */}
               <div
                 className="absolute inset-0"
-                style={{ background: "linear-gradient(rgba(74,217,224,0.14), rgba(10,40,44,0.28))" }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "repeating-linear-gradient(to bottom, transparent 0, transparent 1px, rgba(0,0,0,0.25) 1px, rgba(0,0,0,0.25) 2px)",
-                }}
+                style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.08), transparent 60%)" }}
               />
             </div>
           );
