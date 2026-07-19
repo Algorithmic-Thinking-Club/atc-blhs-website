@@ -11,20 +11,16 @@ import { useEffect, useRef } from "react";
 
 const CW = 240;
 const CH = 150;
-const MAXL = 6; // peak pixelation level
+const MAXL = 5; // peak pixelation level
 
-// phase boundaries (seconds); the whole thing loops on a short cycle so it
-// reads as alive, not stuck
+// phase boundaries (seconds); a short loop so it reads as alive. Each morph is
+// a simultaneous cross-dissolve + pixel bump (smoother than a hard swap).
 const S = {
-  atcPix: 0.5,
-  toSkills: 1.3,
-  skillsCrisp: 1.55,
-  skillsHold: 2.25,
-  skillsPix: 3.5, // SkillsUSA holds crisp ~1.25s
-  toAtc: 4.3,
-  atcCrisp: 4.55,
-  done: 5.2,
-  cycle: 8, // ~5.2s animation, ~2.8s rest on the ATC logo
+  startHold: 0.3,
+  morphA: 1.45, // ATC -> SkillsUSA
+  skillsHold: 2.6, // SkillsUSA crisp
+  morphB: 3.75, // SkillsUSA -> ATC
+  cycle: 5.6, // then ~1.85s rest on ATC
 };
 
 // easeInOutCubic — smoother than quad
@@ -81,30 +77,25 @@ export default function LogoCycle({ className = "" }: { className?: string }) {
 
     const TEAL = "#4ad9e0";
     const WHITE = "#cfe8ea";
-    const pl = (a: number, b: number, tc: number) => (tc - a) / (b - a); // phase-local
+
+    // a morph: both logos cross-dissolve while pixelation bumps up then back down
+    function morph(from: HTMLImageElement, fromGlow: string, to: HTMLImageElement, toGlow: string, p: number) {
+      const e = ease(p);
+      const lvl = 1 + Math.sin(e * Math.PI) * (MAXL - 1);
+      drawPix(from, lvl, 1 - e, fromGlow);
+      drawPix(to, lvl, e, toGlow);
+    }
 
     function render(tc: number) {
       ctx!.clearRect(0, 0, CW, CH);
-      if (tc < S.atcPix) {
+      if (tc < S.startHold) {
         drawPix(atc, 1, 1, TEAL);
-      } else if (tc < S.toSkills) {
-        drawPix(atc, 1 + ease(pl(S.atcPix, S.toSkills, tc)) * (MAXL - 1), 1, TEAL);
-      } else if (tc < S.skillsCrisp) {
-        const u = ease(pl(S.toSkills, S.skillsCrisp, tc));
-        drawPix(atc, MAXL, 1 - u, TEAL);
-        drawPix(skills, MAXL, u, WHITE);
+      } else if (tc < S.morphA) {
+        morph(atc, TEAL, skills, WHITE, (tc - S.startHold) / (S.morphA - S.startHold));
       } else if (tc < S.skillsHold) {
-        drawPix(skills, MAXL - ease(pl(S.skillsCrisp, S.skillsHold, tc)) * (MAXL - 1), 1, WHITE);
-      } else if (tc < S.skillsPix) {
         drawPix(skills, 1, 1, WHITE);
-      } else if (tc < S.toAtc) {
-        drawPix(skills, 1 + ease(pl(S.skillsPix, S.toAtc, tc)) * (MAXL - 1), 1, WHITE);
-      } else if (tc < S.atcCrisp) {
-        const u = ease(pl(S.toAtc, S.atcCrisp, tc));
-        drawPix(skills, MAXL, 1 - u, WHITE);
-        drawPix(atc, MAXL, u, TEAL);
-      } else if (tc < S.done) {
-        drawPix(atc, MAXL - ease(pl(S.atcCrisp, S.done, tc)) * (MAXL - 1), 1, TEAL);
+      } else if (tc < S.morphB) {
+        morph(skills, WHITE, atc, TEAL, (tc - S.skillsHold) / (S.morphB - S.skillsHold));
       } else {
         drawPix(atc, 1, 1, TEAL);
       }

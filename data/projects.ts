@@ -2,6 +2,7 @@ export type Project = {
   title: string;
   status: "active" | "paused" | "planned";
   description: string;
+  progress?: number; // overrides the per-status default (0-100)
   tech?: string[];
   link?: string;
   image?: string;
@@ -11,6 +12,7 @@ export const projects: Project[] = [
   {
     title: "ATC Club Website",
     status: "active",
+    progress: 95,
     description:
       "The site you're on. We rebuilt it in 2026 with pixel art and a game UI to match what the club is actually building.",
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
@@ -19,6 +21,7 @@ export const projects: Project[] = [
     title: "WiseGraph",
     link: "https://wisegraph.vercel.app",
     status: "active",
+    progress: 100,
     description:
       "A data visualization tool built for David Wiseman, a student support specialist at BLHS. It tracks student progress across terms and he uses it in real parent meetings.",
     tech: ["TypeScript", "React", "Recharts"],

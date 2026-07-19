@@ -65,7 +65,7 @@ export default function ProjectsPage() {
                 </p>
 
                 <div className="mt-6 max-w-sm">
-                  <XpBar percent={status.progress} label="Progress" />
+                  <XpBar percent={project.progress ?? status.progress} label="Progress" />
                 </div>
               </div>
             </Reveal>
