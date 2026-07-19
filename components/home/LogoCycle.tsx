@@ -106,7 +106,12 @@ export default function LogoCycle({ className = "" }: { className?: string }) {
     let started = false;
     function frame(ts: number) {
       if (!start) start = ts;
-      render(((ts - start) / 1000) % S.cycle);
+      // never let a transient error stop the loop
+      try {
+        render(((ts - start) / 1000) % S.cycle);
+      } catch {
+        /* skip this frame */
+      }
       raf = requestAnimationFrame(frame);
     }
     const freeze = new URLSearchParams(window.location.search).get("logot");
