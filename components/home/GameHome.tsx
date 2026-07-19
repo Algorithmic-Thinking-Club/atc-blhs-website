@@ -11,6 +11,8 @@ import {
   useTransform,
 } from "motion/react";
 import BootScreen from "@/components/home/BootScreen";
+import LogoMorph from "@/components/home/LogoMorph";
+import PerspectiveScreens from "@/components/home/PerspectiveScreens";
 import Sprite from "@/components/fx/Sprite";
 import Typewriter from "@/components/fx/Typewriter";
 import Reveal from "@/components/fx/Reveal";
@@ -180,6 +182,8 @@ export default function GameHome() {
             priority
           />
           <div className="absolute inset-0 bg-background/55" />
+          {/* real ATC photos mapped into the angled monitor screens */}
+          <PerspectiveScreens />
         </motion.div>
         <div className="scanlines pointer-events-none absolute inset-0" aria-hidden />
 
@@ -208,14 +212,7 @@ export default function GameHome() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Image
-              src="/logo.png"
-              alt="ATC logo"
-              width={120}
-              height={120}
-              priority
-              className="float"
-            />
+            <LogoMorph src="/logo.png" size={120} className="float" />
           </motion.div>
           <p className="mt-8 font-pixel text-[11px] uppercase tracking-[0.3em] text-accent crt-glow">
             Bonney Lake High School
