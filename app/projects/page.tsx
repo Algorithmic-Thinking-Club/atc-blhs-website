@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 };
 
 const questStatus = {
-  active: { label: "Quest active", className: "text-xp", progress: 80 },
+  active: { label: "Active", className: "text-xp", progress: 80 },
   paused: { label: "On hold", className: "text-gold", progress: 45 },
-  planned: { label: "Quest queued", className: "text-foreground/40", progress: 10 },
+  planned: { label: "Planned", className: "text-foreground/40", progress: 10 },
 } as const;
 
 export default function ProjectsPage() {
   return (
-    <Section title="Quest Board" subtitle="What we're building and what's next.">
+    <Section title="Projects" subtitle="What we're building and what's next.">
       <div className="space-y-6">
         {projects.map((project, i) => {
           const status = questStatus[project.status];

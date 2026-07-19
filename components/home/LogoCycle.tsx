@@ -13,17 +13,18 @@ const CW = 240;
 const CH = 150;
 const MAXL = 6; // peak pixelation level
 
-// phase boundaries (seconds) within a 15s cycle
+// phase boundaries (seconds); the whole thing loops on a short cycle so it
+// reads as alive, not stuck
 const S = {
-  atcPix: 0.6,
-  toSkills: 1.55,
-  skillsCrisp: 1.85,
-  skillsHold: 2.7,
-  skillsPix: 3.9,
-  toAtc: 4.85,
-  atcCrisp: 5.15,
-  done: 6.0,
-  cycle: 15,
+  atcPix: 0.5,
+  toSkills: 1.3,
+  skillsCrisp: 1.55,
+  skillsHold: 2.25,
+  skillsPix: 3.5, // SkillsUSA holds crisp ~1.25s
+  toAtc: 4.3,
+  atcCrisp: 4.55,
+  done: 5.2,
+  cycle: 8, // ~5.2s animation, ~2.8s rest on the ATC logo
 };
 
 // easeInOutCubic — smoother than quad

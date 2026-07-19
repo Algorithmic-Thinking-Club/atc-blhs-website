@@ -24,7 +24,7 @@ export default function CompetitionsPage() {
         className="pointer-events-none object-cover opacity-10"
       />
       <Section
-        title="Trophy Room"
+        title="Competitions"
         subtitle="Every SkillsUSA run so far, regionals to nationals."
         className="relative z-10"
       >

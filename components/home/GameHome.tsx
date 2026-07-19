@@ -20,32 +20,32 @@ import { memberYears } from "@/data/members";
 
 const MENU = [
   {
-    label: "New Game",
-    sub: "join the club",
+    label: "Join the Club",
+    sub: "new members start here",
     href: "/join",
     line: "Sign up, then show up. The first meeting is basically the tutorial.",
   },
   {
-    label: "Continue",
-    sub: "member hub",
+    label: "Member Hub",
+    sub: "chat & announcements",
     href: "/hub",
     line: "Already a member? Pick up where you left off in the hub.",
   },
   {
-    label: "Quest Log",
-    sub: "our projects",
+    label: "Projects",
+    sub: "what we build",
     href: "/projects",
     line: "Everything we're building, including the site you're looking at.",
   },
   {
-    label: "Trophy Room",
-    sub: "competition results",
+    label: "Competitions",
+    sub: "SkillsUSA results",
     href: "/competitions",
     line: "How the SkillsUSA season went. Short version: we're going to Atlanta.",
   },
   {
-    label: "Party",
-    sub: "the people",
+    label: "Members",
+    sub: "the team",
     href: "/members",
     line: "Meet the members. One of them has sworn eternal war on the CollegeBoard.",
   },
@@ -373,7 +373,7 @@ export default function GameHome() {
             <div className="pixel-border mx-auto max-w-3xl bg-panel p-8">
               <div className="flex items-center justify-between gap-4">
                 <p className="font-pixel text-xs uppercase tracking-wider text-accent">
-                  Save file 01: year one
+                  Year One
                 </p>
                 <p className="font-terminal text-lg text-foreground/40">
                   2025-26
@@ -393,13 +393,13 @@ export default function GameHome() {
               </ul>
               <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t-2 border-line pt-6">
                 <p className="font-terminal text-lg text-foreground/40">
-                  Year two starts October 2026. The save file has room.
+                  Year two starts October 2026, with plenty of room to grow.
                 </p>
                 <Link
                   href="/join"
                   className="font-pixel text-xs uppercase tracking-wider text-accent hover:crt-glow"
                 >
-                  ▸ Continue
+                  ▸ Join us
                 </Link>
               </div>
             </div>
@@ -416,7 +416,7 @@ export default function GameHome() {
                   height={14}
                   className="pixelated"
                 />
-                Memory card
+                Photos
               </p>
             </Reveal>
             <div className="mt-5 grid gap-4 sm:grid-cols-3">

@@ -69,7 +69,7 @@ export default function JoinPage() {
                 label="Thor, the Adventure Game hero"
               />
               <h2 className="font-pixel text-2xl uppercase tracking-wide sm:text-3xl">
-                New Game
+                Join ATC
               </h2>
             </div>
             <p className="mt-4 font-terminal text-2xl text-foreground/60">
@@ -90,14 +90,14 @@ export default function JoinPage() {
             </div>
             <div className="mt-10">
               <p className="font-pixel text-[11px] uppercase tracking-[0.25em] text-accent crt-glow blink">
-                Ready player one?
+                Ready to join?
               </p>
               <div className="mt-4 flex flex-wrap gap-4">
                 <Button href="https://docs.google.com/forms/d/1wPuw8keLqSHSA38l9J5ISKGpPCaf5OhQ2yovKxT9yYs" external>
-                  Press Start
+                  Sign Up
                 </Button>
                 <Button href="/" variant="secondary">
-                  Title Screen
+                  Back Home
                 </Button>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function JoinPage() {
         </div>
       </div>
 
-      <Section title="Loot Table" subtitle="What you get out of it.">
+      <Section title="What You Get" subtitle="Why it's worth your time.">
         <Reveal>
           <div className="pixel-border grid bg-panel sm:grid-cols-2">
             {loot.map((item, i) => (

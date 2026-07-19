@@ -44,7 +44,7 @@ export default function MembersGrid({ years }: { years: MemberYear[] }) {
           htmlFor="member-year"
           className="font-pixel text-[10px] uppercase tracking-wider text-foreground/50"
         >
-          Save file
+          School year
         </label>
         <select
           id="member-year"
@@ -97,7 +97,7 @@ export default function MembersGrid({ years }: { years: MemberYear[] }) {
                   </p>
                   {level && (
                     <p className="mt-1 font-terminal text-lg text-gold">
-                      LVL {level}
+                      Grade {level}
                     </p>
                   )}
                 </div>
@@ -110,7 +110,7 @@ export default function MembersGrid({ years }: { years: MemberYear[] }) {
               )}
               {member.hobby && (
                 <p className="mt-3 font-terminal text-base leading-snug text-foreground/40">
-                  <span className="text-foreground/60">Side quests:</span>{" "}
+                  <span className="text-foreground/60">Interests:</span>{" "}
                   {member.hobby}
                 </p>
               )}
