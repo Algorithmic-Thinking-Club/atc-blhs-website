@@ -12,6 +12,7 @@ import {
 } from "motion/react";
 import BootScreen from "@/components/home/BootScreen";
 import LogoCycle from "@/components/home/LogoCycle";
+import CyclingTitle from "@/components/home/CyclingTitle";
 import PerspectiveScreens from "@/components/home/PerspectiveScreens";
 import Sprite from "@/components/fx/Sprite";
 import Typewriter from "@/components/fx/Typewriter";
@@ -218,10 +219,8 @@ export default function GameHome() {
           <p className="mt-8 font-pixel text-[11px] uppercase tracking-[0.3em] text-accent crt-glow">
             Bonney Lake High School
           </p>
-          <h1 className="glitch mt-4 max-w-3xl font-pixel text-3xl uppercase leading-relaxed tracking-wide sm:text-5xl sm:leading-relaxed">
-            Algorithmic
-            <br />
-            Thinking Club
+          <h1 className="glitch mt-5 min-h-[4.5rem] max-w-xl font-pixel text-3xl uppercase leading-tight tracking-wide sm:min-h-[7.5rem] sm:text-5xl">
+            <CyclingTitle />
           </h1>
 
           <button
@@ -388,10 +387,10 @@ export default function GameHome() {
                 {SAVE_LINES.map((line, i) => (
                   <Reveal key={i} delay={0.15 + i * 0.12} from="left">
                     <li className="flex gap-3 font-terminal text-xl leading-snug text-foreground/70">
-                      <span aria-hidden className="text-gold">
+                      <span aria-hidden className="shrink-0 text-gold">
                         ★
                       </span>
-                      {line}
+                      <span>{line}</span>
                     </li>
                   </Reveal>
                 ))}
