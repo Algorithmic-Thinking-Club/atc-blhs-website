@@ -65,9 +65,10 @@ export default function CyclingTitle({ className = "" }: { className?: string })
     <span className={className}>
       {head}
       {tail && <span className="text-accent">{tail}</span>}
-      <span aria-hidden className="blink text-accent">
-        █
-      </span>
+      <span
+        aria-hidden
+        className="blink ml-2 inline-block h-[0.82em] w-[0.5em] translate-y-[0.06em] bg-accent/50 align-baseline"
+      />
     </span>
   );
 }
