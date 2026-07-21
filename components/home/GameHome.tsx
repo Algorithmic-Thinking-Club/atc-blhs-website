@@ -215,15 +215,14 @@ export default function GameHome() {
           >
             <LogoCycle className="float" />
           </motion.div>
-          <h1 className="glitch mt-8 max-w-3xl font-pixel text-3xl uppercase leading-relaxed tracking-wide sm:text-5xl sm:leading-relaxed">
+          <p className="mt-8 font-pixel text-[11px] uppercase tracking-[0.3em] text-accent crt-glow">
+            Bonney Lake High School
+          </p>
+          <h1 className="glitch mt-4 max-w-3xl font-pixel text-3xl uppercase leading-relaxed tracking-wide sm:text-5xl sm:leading-relaxed">
             Algorithmic
             <br />
             Thinking Club
           </h1>
-          <p className="mt-6 max-w-xl font-terminal text-2xl leading-snug text-foreground/75 sm:text-3xl">
-            The <span className="text-accent">first</span> computer science club
-            at Bonney Lake High.
-          </p>
 
           <button
             onClick={pressStart}
@@ -381,6 +380,10 @@ export default function GameHome() {
                   2025-26
                 </p>
               </div>
+              <p className="mt-4 font-terminal text-xl leading-snug text-foreground/80">
+                ATC is the <span className="text-accent">first</span> computer
+                science club at Bonney Lake High School.
+              </p>
               <ul className="mt-6 space-y-4">
                 {SAVE_LINES.map((line, i) => (
                   <Reveal key={i} delay={0.15 + i * 0.12} from="left">
