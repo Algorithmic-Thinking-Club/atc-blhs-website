@@ -222,6 +222,9 @@ export default function GameHome() {
             <br />
             Thinking Club
           </h1>
+          <p className="mt-5 max-w-md font-terminal text-xl text-foreground/50">
+            The first computer science club at Bonney Lake High.
+          </p>
 
           <button
             onClick={pressStart}

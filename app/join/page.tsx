@@ -77,10 +77,10 @@ export default function JoinPage() {
             </p>
             <div className="mt-8 space-y-4 font-terminal text-xl leading-snug">
               <p className="text-foreground/80">
-                ATC is the Algorithmic Thinking Club at Bonney Lake High School.
-                Most weeks that means building a project with other people who
-                like making things. Some weeks it means getting ready for
-                SkillsUSA.
+                ATC, the Algorithmic Thinking Club, is the first computer
+                science club at Bonney Lake High School. Most weeks that means
+                building a project with other people who like making things.
+                Some weeks it means getting ready for SkillsUSA.
               </p>
               <p className="text-foreground/60">
                 You don&apos;t need any coding experience to join. We&apos;ll
@@ -110,9 +110,10 @@ export default function JoinPage() {
             src="/club-booth.jpg"
             alt="ATC booth at BLHS club fair"
             fill
-            className="object-cover opacity-40 lg:opacity-50"
+            className="object-cover opacity-80 lg:opacity-95"
           />
-          <div className="hidden absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent lg:block" />
+          {/* soft blend on just the left edge so it meets the text column without hiding anyone */}
+          <div className="hidden absolute inset-0 bg-gradient-to-r from-background to-transparent to-[12%] lg:block" />
           <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent lg:hidden" />
           <div className="scanlines pointer-events-none absolute inset-0" aria-hidden />
         </div>
