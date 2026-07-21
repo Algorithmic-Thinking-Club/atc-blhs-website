@@ -110,10 +110,11 @@ export default function JoinPage() {
             src="/club-booth.jpg"
             alt="ATC booth at BLHS club fair"
             fill
-            className="object-cover opacity-80 lg:opacity-95"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover opacity-65"
           />
-          {/* soft blend on just the left edge so it meets the text column without hiding anyone */}
-          <div className="hidden absolute inset-0 bg-gradient-to-r from-background to-transparent to-[12%] lg:block" />
+          {/* soft left-edge blend into the text column; gentle enough to keep both members clear */}
+          <div className="hidden absolute inset-0 bg-gradient-to-r from-background to-transparent to-[15%] lg:block" />
           <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent lg:hidden" />
           <div className="scanlines pointer-events-none absolute inset-0" aria-hidden />
         </div>

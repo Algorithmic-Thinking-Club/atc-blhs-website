@@ -48,9 +48,14 @@ export default function Navbar() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setHubHref(user ? "/hub" : "/hub/login");
-    });
+    supabase.auth
+      .getUser()
+      .then(({ data: { user } }) => {
+        setHubHref(user ? "/hub" : "/hub/login");
+      })
+      .catch(() => {
+        // hub backend may be offline; leave the default login link
+      });
   }, []);
 
   return (

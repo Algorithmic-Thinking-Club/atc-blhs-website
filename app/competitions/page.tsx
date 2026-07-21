@@ -21,6 +21,7 @@ export default function CompetitionsPage() {
         src="/skillsusa-state.jpg"
         alt=""
         fill
+        sizes="100vw"
         className="pointer-events-none object-cover opacity-10"
       />
       <Section

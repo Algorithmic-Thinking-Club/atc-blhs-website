@@ -178,6 +178,7 @@ export default function GameHome() {
             src="/pixel/hero-scene.png"
             alt=""
             fill
+            sizes="100vw"
             className="pixelated object-cover"
             priority
           />
@@ -214,16 +215,14 @@ export default function GameHome() {
           >
             <LogoCycle className="float" />
           </motion.div>
-          <p className="mt-8 font-pixel text-[11px] uppercase tracking-[0.3em] text-accent crt-glow">
-            Bonney Lake High School
-          </p>
-          <h1 className="glitch mt-4 max-w-3xl font-pixel text-3xl uppercase leading-relaxed tracking-wide sm:text-5xl sm:leading-relaxed">
+          <h1 className="glitch mt-8 max-w-3xl font-pixel text-3xl uppercase leading-relaxed tracking-wide sm:text-5xl sm:leading-relaxed">
             Algorithmic
             <br />
             Thinking Club
           </h1>
-          <p className="mt-5 max-w-md font-terminal text-xl text-foreground/50">
-            The first computer science club at Bonney Lake High.
+          <p className="mt-6 max-w-xl font-terminal text-2xl leading-snug text-foreground/75 sm:text-3xl">
+            The <span className="text-accent">first</span> computer science club
+            at Bonney Lake High.
           </p>
 
           <button
@@ -431,6 +430,7 @@ export default function GameHome() {
                         src={photo.src}
                         alt={photo.alt}
                         fill
+                        sizes="(min-width: 640px) 33vw, 100vw"
                         className="object-cover object-[50%_42%] transition-transform duration-300 group-hover:scale-105"
                       />
                       <div className="scanlines absolute inset-0" aria-hidden />

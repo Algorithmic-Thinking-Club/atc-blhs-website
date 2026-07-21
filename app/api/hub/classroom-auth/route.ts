@@ -1,4 +1,4 @@
-// Google Classroom Sync Setup:
+// Google Classroom Sync Setup - pasted from cchackersapi:
 // 1. Go to https://console.cloud.google.com
 // 2. Create a new project (or use existing).
 // 3. Enable the "Google Classroom API" in APIs & Services.
