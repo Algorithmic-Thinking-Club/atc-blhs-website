@@ -12,7 +12,7 @@ export const projects: Project[] = [
   {
     title: "ATC Club Website",
     status: "active",
-    progress: 95,
+    progress: 99,
     description:
       "The site you're on. We rebuilt it in 2026 with pixel art and a game UI to match what the club is actually building.",
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
