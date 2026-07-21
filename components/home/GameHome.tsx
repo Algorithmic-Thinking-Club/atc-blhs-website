@@ -313,7 +313,7 @@ export default function GameHome() {
                 label="Thor, the Adventure Game hero"
                 className="shrink-0"
               />
-              <div className="pixel-border pixel-border-accent min-h-[120px] flex-1 bg-panel p-5">
+              <div className="pixel-border pixel-border-accent min-h-[120px] flex-1 bg-panel/70 p-5">
                 <p className="font-pixel text-[10px] uppercase tracking-wider text-accent">
                   THOR
                 </p>

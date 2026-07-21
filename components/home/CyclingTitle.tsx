@@ -21,14 +21,14 @@ export default function CyclingTitle({ className = "" }: { className?: string })
     let cancelled = false;
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-    async function type(str: string, speed = 55) {
+    async function type(str: string, speed = 40) {
       for (let i = 1; i <= str.length; i++) {
         if (cancelled) return;
         setText(str.slice(0, i));
         await sleep(speed);
       }
     }
-    async function erase(str: string, speed = 26) {
+    async function erase(str: string, speed = 20) {
       for (let i = str.length; i >= 0; i--) {
         if (cancelled) return;
         setText(str.slice(0, i));
